@@ -26,4 +26,11 @@ module.exports = {
     'react/no-did-mount-set-state': 1,
     'react/prop-types': 1,
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        paths: ['src'],
+      },
+    },
+  },
 }

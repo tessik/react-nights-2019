@@ -1,11 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import { getProducts } from '../../api/get-products'
 
 import ProductListComponent from './components/ProductList'
-import Layout from '../../components/Layout'
-import Loader from '../../components/Loader'
-import { H1 } from '../../components/Typography'
-
-import { getProducts } from '../../api/get-products'
+import Loader from 'components/Loader'
 
 class ProductList extends Component {
   state = {
@@ -26,11 +23,10 @@ class ProductList extends Component {
     const { isLoading, products } = this.state
 
     return (
-      <Layout>
-        <H1 textAlign="center">E-Commerce app</H1>
+      <Fragment>
         {isLoading && <Loader />}
         {products && <ProductListComponent products={products} />}
-      </Layout>
+      </Fragment>
     )
   }
 }

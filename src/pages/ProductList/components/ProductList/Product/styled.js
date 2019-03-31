@@ -2,7 +2,24 @@ import styled from 'styled-components/macro'
 import { Link as BaseLink } from 'react-router-dom'
 import theme from '../../../../../common/theme'
 
-export const Wrapper = styled.li``
+export const Wrapper = styled.li`
+  width: 100%;
+  margin-bottom: 20px;
+  transition: all 300ms;
+
+  @media screen and (min-width: 600px) {
+    width: calc(50% - 20px);
+  }
+
+  @media screen and (min-width: 800px) {
+    width: calc(33.333% - 20px);
+  }
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 2px 2px 10px ${theme.color.transparentBlack};
+  }
+`
 
 export const Link = styled(BaseLink)`
   text-decoration: none;
@@ -13,8 +30,6 @@ export const Link = styled(BaseLink)`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 1rem;
-  width: 35rem;
 `
 
 export const ImgWrap = styled.div`
@@ -25,7 +40,7 @@ export const ImgWrap = styled.div`
 `
 
 export const Price = styled.div`
-  color: ${theme.color.red};
+  color: ${theme.color.pink};
   font-size: 1.8rem;
   margin-top: 2rem;
 `
@@ -43,5 +58,4 @@ export const TitleWrap = styled.div`
 export const Title = styled.h3`
   font-size: 1.6rem;
   font-weight: 100;
-  text-transform: uppercase;
 `

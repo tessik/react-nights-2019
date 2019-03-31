@@ -3,10 +3,12 @@ const theme = {
     black: '#252522',
     softGray: '#f9f9f9',
     gray: '#e5e5e5',
+    transparentBlack: 'rgba(0,0,0,0.3)',
     primary: '#f8cb00',
     purple: '#6364d9',
     white: '#fff',
     red: '#ef0d33',
+    pink: '#e60850',
   },
   radius: {
     basic: '5px',

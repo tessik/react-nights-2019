@@ -40,6 +40,7 @@ const GlobalStyles = createGlobalStyle`
     font-size: 1.6rem;
     font-family: 'circular', sans-serif;
     font-weight: 100;
+    color: ${theme.color.black};
     background-color: ${theme.color.softGray};
   }
 

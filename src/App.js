@@ -1,21 +1,27 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-
 import GlobalStyles from './globalStyles'
 
-import { ProductList } from './pages/ProductList'
-import { ProductDetail } from './pages/ProductDetail'
+import Header from 'components/Common/Header'
+import Layout from 'components/Layout'
+import { ProductList } from 'pages/ProductList'
+import { ProductDetail } from 'pages/ProductDetail'
+import Cart from 'pages/Cart'
+import Contacts from 'pages/Contacts'
 
-class App extends Component {
+class App {
   render() {
     return (
-      <React.Fragment>
+      <Layout>
+        <Header />
         <GlobalStyles />
         <Switch>
           <Route path="/" exact component={ProductList} />
-          <Route path="/:productId" component={ProductDetail} />
+          <Route path="/product/:productId" component={ProductDetail} />
+          <Route path="/cart" component={Cart} />
+          <Route path="/contacts" component={Contacts} />
         </Switch>
-      </React.Fragment>
+      </Layout>
     )
   }
 }

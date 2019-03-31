@@ -64,7 +64,7 @@ const Circular = styled.svg`
 `
 
 const Path = styled.circle`
-  stroke: ${props => (props.white ? '#fff' : theme.color.red)};
+  stroke: ${props => (props.white ? '#fff' : theme.color.pink)};
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;
   animation: ${dash} 1.5s ease-in-out infinite;
