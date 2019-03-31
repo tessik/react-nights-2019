@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Wrapper, ImgWrap, Img, TitleWrap, Title, Price, Link } from './styled'
 
 const Product = ({ node }) => (
@@ -14,5 +15,9 @@ const Product = ({ node }) => (
     </Link>
   </Wrapper>
 )
+
+Product.propTypes = {
+  node: PropTypes.object.isRequired,
+}
 
 export default Product

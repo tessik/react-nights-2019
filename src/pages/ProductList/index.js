@@ -10,13 +10,16 @@ class ProductList extends Component {
     products: [],
   }
 
-  async componentDidMount() {
-    let products = await getProducts()
-
+  setProductsState(products) {
     this.setState({
       isLoading: false,
       products,
     })
+  }
+
+  async componentDidMount() {
+    let products = await getProducts()
+    this.setProductsState(products)
   }
 
   render() {

@@ -9,21 +9,17 @@ import { ProductDetail } from 'pages/ProductDetail'
 import Cart from 'pages/Cart'
 import Contacts from 'pages/Contacts'
 
-class App {
-  render() {
-    return (
-      <Layout>
-        <Header />
-        <GlobalStyles />
-        <Switch>
-          <Route path="/" exact component={ProductList} />
-          <Route path="/product/:productId" component={ProductDetail} />
-          <Route path="/cart" component={Cart} />
-          <Route path="/contacts" component={Contacts} />
-        </Switch>
-      </Layout>
-    )
-  }
-}
+const App = () => (
+  <Layout>
+    <Header />
+    <GlobalStyles />
+    <Switch>
+      <Route path="/" exact component={ProductList} />
+      <Route path="/product/:productId" component={ProductDetail} />
+      <Route path="/cart" component={Cart} />
+      <Route path="/contacts" component={Contacts} />
+    </Switch>
+  </Layout>
+)
 
 export default App

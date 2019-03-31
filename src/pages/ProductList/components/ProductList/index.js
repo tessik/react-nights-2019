@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 import Product from './Product'
 import { ProductsWrap } from './styled'
 
@@ -11,5 +12,9 @@ const ProductList = ({ products }) => (
     </ProductsWrap>
   </Fragment>
 )
+
+ProductList.propTypes = {
+  products: PropTypes.object.isRequired,
+}
 
 export default ProductList
