@@ -59,3 +59,11 @@ export const Title = styled.h3`
   font-size: 1.6rem;
   font-weight: 100;
 `
+
+export const AddButton = styled.button`
+  background: ${theme.color.pink};
+  padding: 1rem;
+  margin-top: 0.5rem;
+  border: none;
+  color: ${theme.color.white};
+`

@@ -1,5 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
 import { getProductById } from 'api/get-product'
+import { getProduct } from 'store/detail/actions'
+import { addProduct } from 'store/cartItems/actions'
 
 import Loader from 'components/Loader'
 import {
@@ -13,46 +16,65 @@ import {
   Button,
 } from './styled'
 
-class ProductDetail extends Component {
+class Product extends Component {
   state = {
     isLoading: true,
-    product: {},
-  }
-
-  setProductState(product) {
-    this.setState({
-      isLoading: false,
-      product,
-    })
   }
 
   async componentDidMount() {
-    const product = await getProductById(this.props.match.params.productId)
-    this.setProductState(product)
+    if (this.props.product.length === 0) {
+      const product = await getProductById(this.props.match.params.productId)
+      this.props.getProduct(product)
+    }
+
+    this.setState({
+      isLoading: false,
+    })
   }
 
-  renderProduct(product) {
-    return (
-      <Content>
-        <Info>
-          <Title>{product.name}</Title>
-          <Description>{product.description}</Description>
-          <Price>{product.price}</Price>
-          {/* TODO: add behavior */}
-          <Button onClick={() => alert(`I'm dummy, yet`)}>Add to cart</Button>
-        </Info>
-        <ImgWrapper>
-          <Img src={product.image_url} alt={`${product.name} image`} />
-        </ImgWrapper>
-      </Content>
-    )
+  handleAddToCart = (productId, evt) => {
+    evt.preventDefault()
+    this.props.addProduct(productId)
   }
 
   render() {
-    const { isLoading, product } = this.state
+    const { product } = this.props
 
-    return <div>{isLoading ? <Loader /> : this.renderProduct(product)}</div>
+    return (
+      <Fragment>
+        {this.state.isLoading && <Loader />}
+        {product && (
+          <Content>
+            <Info>
+              <Title>{product.name}</Title>
+              <Description>{product.description}</Description>
+              <Price>{product.price}</Price>
+              <Button onClick={evt => this.handleAddToCart(product.id, evt)}>
+                Add to cart
+              </Button>
+            </Info>
+            <ImgWrapper>
+              <Img src={product.image_url} alt={`${product.name} image`} />
+            </ImgWrapper>
+          </Content>
+        )}
+      </Fragment>
+    )
   }
 }
+
+const mapStateToProps = state => ({
+  product: state.detail,
+})
+
+const mapDispatchToProps = {
+  getProduct,
+  addProduct,
+}
+
+const ProductDetail = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Product)
 
 export { ProductDetail }

@@ -1,8 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Wrapper, ImgWrap, Img, TitleWrap, Title, Price, Link } from './styled'
+import {
+  Wrapper,
+  ImgWrap,
+  Img,
+  TitleWrap,
+  Title,
+  Price,
+  Link,
+  AddButton,
+} from './styled'
 
-const Product = ({ node }) => (
+const Product = ({ node, onAddToCart }) => (
   <Wrapper>
     <Link to={`product/${node.id}`}>
       <ImgWrap>
@@ -12,6 +21,9 @@ const Product = ({ node }) => (
         <Title>{node.name}</Title>
       </TitleWrap>
       <Price>{node.price.formatted_amount}</Price>
+      <AddButton onClick={evt => onAddToCart(node.id, evt)}>
+        Add to Cart
+      </AddButton>
     </Link>
   </Wrapper>
 )
