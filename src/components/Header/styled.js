@@ -21,13 +21,13 @@ export const Logo = styled(Link)`
   color: white;
   text-decoration: none;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 2.4rem;
   background: ${theme.color.pink};
 `
 
 export const Claim = styled.p`
   font-style: italic;
-  font-size: 18px;
+  font-size: 1.8rem;
 `
 
 export const Nav = styled.ul`

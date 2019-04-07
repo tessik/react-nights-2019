@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getProducts } from 'api/get-products'
+import { getProductById } from 'api/get-product'
 
 import Loader from 'components/Loader'
 import {
@@ -16,23 +16,19 @@ import {
 class ProductDetail extends Component {
   state = {
     isLoading: true,
-    currentProduct: {},
+    product: {},
   }
 
-  setProductState(currentProduct) {
+  setProductState(product) {
     this.setState({
       isLoading: false,
-      currentProduct,
+      product,
     })
   }
 
   async componentDidMount() {
-    const products = await getProducts()
-    const id = this.props.match.params.productId
-    const currentProduct = products.find(item => {
-      return item.id === id
-    })
-    this.setProductState(currentProduct)
+    const product = await getProductById(this.props.match.params.productId)
+    this.setProductState(product)
   }
 
   renderProduct(product) {
@@ -41,7 +37,7 @@ class ProductDetail extends Component {
         <Info>
           <Title>{product.name}</Title>
           <Description>{product.description}</Description>
-          <Price>{product.price.formatted_amount}</Price>
+          <Price>{product.price}</Price>
           {/* TODO: add behavior */}
           <Button onClick={() => alert(`I'm dummy, yet`)}>Add to cart</Button>
         </Info>
@@ -53,11 +49,9 @@ class ProductDetail extends Component {
   }
 
   render() {
-    const { isLoading, currentProduct } = this.state
+    const { isLoading, product } = this.state
 
-    return (
-      <div>{isLoading ? <Loader /> : this.renderProduct(currentProduct)}</div>
-    )
+    return <div>{isLoading ? <Loader /> : this.renderProduct(product)}</div>
   }
 }
 
