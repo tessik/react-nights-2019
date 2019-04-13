@@ -19,16 +19,16 @@ class ProductDetail extends Component {
     product: {},
   }
 
-  setProductState(product) {
+  async fetchProduct() {
+    const product = await getProductById(this.props.match.params.productId)
     this.setState({
       isLoading: false,
       product,
     })
   }
 
-  async componentDidMount() {
-    const product = await getProductById(this.props.match.params.productId)
-    this.setProductState(product)
+  componentDidMount() {
+    this.fetchProduct()
   }
 
   renderProduct(product) {
