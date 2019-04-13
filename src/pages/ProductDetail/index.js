@@ -21,20 +21,23 @@ class Product extends Component {
     isLoading: true,
   }
 
-  async componentDidMount() {
+  async fetchProduct() {
     if (this.props.product.length === 0) {
       const product = await getProductById(this.props.match.params.productId)
       this.props.getProduct(product)
+      this.setState({
+        isLoading: false,
+      })
     }
-
-    this.setState({
-      isLoading: false,
-    })
   }
 
   handleAddToCart = (productId, evt) => {
     evt.preventDefault()
     this.props.addProduct(productId)
+  }
+
+  componentDidMount() {
+    this.fetchProduct()
   }
 
   render() {
