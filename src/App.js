@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import GlobalStyles from './globalStyles'
 
-import Header from 'components/Header'
 import Layout from 'components/Layout'
 import { ProductList } from 'pages/ProductList'
 import { ProductDetail } from 'pages/ProductDetail'
@@ -13,7 +12,6 @@ import store from './store'
 
 const App = () => (
   <Layout>
-    <Header />
     <GlobalStyles />
     <Provider store={store}>
       <Switch>

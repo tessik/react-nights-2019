@@ -7,7 +7,7 @@ export const Wrapper = styled.header`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-bottom: 5rem;
+  margin: 3rem 0;
 `
 
 export const Logo = styled(Link)`
@@ -28,19 +28,4 @@ export const Logo = styled(Link)`
 export const Claim = styled.p`
   font-style: italic;
   font-size: 1.8rem;
-`
-
-export const Nav = styled.ul`
-  display: flex;
-  flex-direction: row;
-  padding-left: 0;
-`
-
-export const NavItem = styled.li`
-  margin-right: 1rem;
-  list-style: none;
-`
-
-export const NavLink = styled(Link)`
-  color: ${theme.color.pink};
 `

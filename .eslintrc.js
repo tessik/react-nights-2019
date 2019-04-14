@@ -24,7 +24,7 @@ module.exports = {
   rules: {
     'prefer-named-capture-group': 0,
     'react/no-did-mount-set-state': 1,
-    'react/prop-types': 1,
+    'react/prop-types': 0,
     'no-shadow': [2, { allow: ['name'] }],
   },
   settings: {
