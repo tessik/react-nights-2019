@@ -17,7 +17,7 @@ const CartView = props => {
       ))}
     </ul>
   ) : (
-    'Your cart is empty'
+    <h1>Your cart is empty</h1>
   )
 }
 
