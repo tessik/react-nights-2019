@@ -7,17 +7,17 @@ export const Wrapper = styled.header`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 5rem;
 `
 
 export const Logo = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
+  height: 5rem;
   margin: 0 auto;
-  padding: 0 20px;
-  border-radius: 25px;
+  padding: 0 2rem;
+  border-radius: 2.5rem;
   color: white;
   text-decoration: none;
   font-weight: 600;
@@ -37,7 +37,7 @@ export const Nav = styled.ul`
 `
 
 export const NavItem = styled.li`
-  margin-right: 10px;
+  margin-right: 1rem;
   list-style: none;
 `
 

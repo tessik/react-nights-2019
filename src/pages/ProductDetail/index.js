@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { getProductById } from 'api/get-product'
-import { getProduct } from 'store/detail/actions'
 import { addProduct } from 'store/cartItems/actions'
 
 import Loader from 'components/Loader'
+import Button from 'components/Button'
 import {
   Content,
   Info,
@@ -13,27 +13,21 @@ import {
   Title,
   Description,
   Price,
-  Button,
 } from './styled'
 
 class Product extends Component {
   state = {
     isLoading: true,
+    product: {},
   }
 
   async fetchProduct() {
-    if (this.props.product.length === 0) {
-      const product = await getProductById(this.props.match.params.productId)
-      this.props.getProduct(product)
-      this.setState({
-        isLoading: false,
-      })
-    }
-  }
+    const product = await getProductById(this.props.match.params.productId)
 
-  handleAddToCart = (productId, evt) => {
-    evt.preventDefault()
-    this.props.addProduct(productId)
+    this.setState({
+      isLoading: false,
+      product,
+    })
   }
 
   componentDidMount() {
@@ -41,18 +35,18 @@ class Product extends Component {
   }
 
   render() {
-    const { product } = this.props
+    const { product } = this.state
 
     return (
       <Fragment>
         {this.state.isLoading && <Loader />}
-        {product && (
+        {!this.state.isLoading && product && (
           <Content>
             <Info>
               <Title>{product.name}</Title>
               <Description>{product.description}</Description>
               <Price>{product.price}</Price>
-              <Button onClick={evt => this.handleAddToCart(product.id, evt)}>
+              <Button onClick={() => this.props.addProduct(product.id)}>
                 Add to cart
               </Button>
             </Info>
@@ -66,17 +60,12 @@ class Product extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  product: state.detail,
-})
-
 const mapDispatchToProps = {
-  getProduct,
   addProduct,
 }
 
 const ProductDetail = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Product)
 

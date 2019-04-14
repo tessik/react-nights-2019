@@ -14,17 +14,16 @@ class Products extends Component {
   }
 
   async fetchProducts() {
-    if (this.props.products.length === 0) {
-      const products = await getProducts()
-      this.props.loadProducts(products)
-      this.setState({
-        isLoading: false,
-      })
-    }
+    const products = await getProducts()
+    this.props.loadProducts(products)
+
+    this.setState({
+      isLoading: false,
+    })
   }
 
-  handleAddToCart = (productId, evt) => {
-    evt.preventDefault()
+  handleAddToCart = (productId, e) => {
+    e.preventDefault()
     this.props.addProduct(productId)
   }
 
@@ -36,15 +35,17 @@ class Products extends Component {
     return (
       <Fragment>
         {this.state.isLoading && <Loader />}
-        <ProductsWrap>
-          {this.props.products.map(product => (
-            <Product
-              key={product.id}
-              node={product}
-              onAddToCart={this.handleAddToCart}
-            />
-          ))}
-        </ProductsWrap>
+        {!this.state.isLoading && (
+          <ProductsWrap>
+            {this.props.products.map(product => (
+              <Product
+                key={product.id}
+                node={product}
+                onAddToCart={e => this.handleAddToCart(product.id, e)}
+              />
+            ))}
+          </ProductsWrap>
+        )}
       </Fragment>
     )
   }

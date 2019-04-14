@@ -8,6 +8,14 @@ const reducer = (state = {}, action) => {
         [action.payload]: (state[action.payload] || 0) + 1,
       }
     case REMOVE_PRODUCT:
+      if (state[action.payload] <= 1) {
+        let newState = state
+        delete newState[action.payload]
+        return {
+          ...newState,
+        }
+      }
+
       return {
         ...state,
         [action.payload]: (state[action.payload] || 0) - 1,

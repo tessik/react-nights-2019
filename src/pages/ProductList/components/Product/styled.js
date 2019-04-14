@@ -4,7 +4,7 @@ import theme from 'common/theme'
 
 export const Wrapper = styled.li`
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
   transition: all 300ms;
 
   @media screen and (min-width: ${theme.breakpoint.sm}) {
@@ -58,12 +58,4 @@ export const TitleWrap = styled.div`
 export const Title = styled.h3`
   font-size: 1.6rem;
   font-weight: 100;
-`
-
-export const AddButton = styled.button`
-  background: ${theme.color.pink};
-  padding: 1rem;
-  margin-top: 0.5rem;
-  border: none;
-  color: ${theme.color.white};
 `
