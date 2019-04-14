@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { getProductById } from 'api/get-product'
+import { getProductById } from 'api/products/get-product'
 import { addProduct } from 'store/cartItems/actions'
 
 import Loader from 'components/Loader'
@@ -45,7 +45,7 @@ class Product extends Component {
             <Info>
               <Title>{product.name}</Title>
               <Description>{product.description}</Description>
-              <Price>{product.price}</Price>
+              <Price>{product.price.formatted_amount}</Price>
               <Button onClick={() => this.props.addProduct(product.id)}>
                 Add to cart
               </Button>

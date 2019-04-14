@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { getProducts } from '../../api/get-products'
+import { getProducts } from 'api/products/get-products'
 import { addProduct } from 'store/cartItems/actions'
 import { loadProducts } from 'store/products/actions'
 
