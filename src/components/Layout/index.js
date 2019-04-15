@@ -1,22 +1,22 @@
 import React, { Component, Fragment } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Logo from 'components/Logo'
 import { Wrapper, Header, HeaderSection, StyledLink } from './styled'
 import { logoutCustomer } from 'store/customers/actions'
-import store from 'store'
 
 class LayoutComponent extends Component {
-  state = {
-    isLogged: store.getState().customers.isLogged || false,
-  }
-
   handleLogout(e) {
     e.preventDefault()
     this.props.logoutCustomer()
+
+    setTimeout(() => {
+      this.props.history.push('/logout')
+    }, 500)
   }
 
   render() {
-    const { isLogged } = this.state
+    const { isLogged, children } = this.props
 
     return (
       <Fragment>
@@ -26,20 +26,28 @@ class LayoutComponent extends Component {
           </HeaderSection>
           <HeaderSection>
             <StyledLink to="/cart">My Cart</StyledLink>
-            {isLogged && <StyledLink to="/account">My Account</StyledLink>}
             {isLogged ? (
-              <StyledLink to="/logout" onClick={e => this.handleLogout(e)}>
-                Log Out
-              </StyledLink>
+              <Fragment>
+                <StyledLink to="/account">My Account</StyledLink>
+                <StyledLink to="/logout" onClick={e => this.handleLogout(e)}>
+                  Log Out
+                </StyledLink>
+              </Fragment>
             ) : (
               <StyledLink to="/signup">Sign Up</StyledLink>
             )}
           </HeaderSection>
         </Header>
         <Logo />
-        <Wrapper>{this.props.children}</Wrapper>
+        <Wrapper>{children}</Wrapper>
       </Fragment>
     )
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    isLogged: state.customers.isLogged,
   }
 }
 
@@ -48,8 +56,8 @@ const mapDispatchToProps = {
 }
 
 const Layout = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(LayoutComponent)
 
-export default Layout
+export default withRouter(Layout)

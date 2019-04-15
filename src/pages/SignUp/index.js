@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { createCustomer } from 'api/customers/create-customer'
-import { loginCustomer } from 'store/customers/actions'
-// import store from 'store'
+import { loginCustomer, logoutCustomer } from 'store/customers/actions'
 
 import { FormWrapper, Label, Input, Error } from './styled'
 import Button from 'components/Button'
@@ -12,7 +11,7 @@ import Button from 'components/Button'
 class Sign extends Component {
   state = {
     globalError: '',
-    // logged: store.getState().customers.isLogged,
+    isSubmitting: false,
   }
 
   initialValues = {
@@ -48,13 +47,13 @@ class Sign extends Component {
     try {
       setSubmitting(true)
       await createCustomer(values)
-      this.props.loginCustomer(true)
+      this.props.loginCustomer()
       this.props.history.push('/account')
     } catch (error) {
       this.setState({
         globalError: error.message,
       })
-      this.props.loginCustomer(false)
+      this.props.logoutCustomer()
     }
     setSubmitting(false)
   }
@@ -126,12 +125,17 @@ class Sign extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return state
+}
+
 const mapDispatchToProps = {
   loginCustomer,
+  logoutCustomer,
 }
 
 const SignUp = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Sign)
 

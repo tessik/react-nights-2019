@@ -1,5 +1,5 @@
-import config from '../config'
-import { setToken } from '../utils/token'
+import config from 'config'
+import { setToken } from 'utils/token'
 
 export const getGuestToken = async () => {
   const response = await fetch(`${config.apiUrl}/oauth/token`, {

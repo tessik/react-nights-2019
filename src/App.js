@@ -9,6 +9,7 @@ import { ProductList } from 'pages/ProductList'
 import { ProductDetail } from 'pages/ProductDetail'
 import Cart from 'pages/Cart'
 import SignUp from 'pages/SignUp'
+import LogOut from 'pages/LogOut'
 import Account from 'pages/Account'
 import store from './store'
 
@@ -21,6 +22,7 @@ const App = () => (
         <Route path="/product/:productId" component={ProductDetail} />
         <Route path="/cart" component={Cart} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/logout" component={LogOut} />
         <PrivateRoute path="/account" component={Account} />
       </Switch>
     </Layout>
