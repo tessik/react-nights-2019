@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
@@ -10,98 +10,95 @@ import * as routes from 'routes'
 import { FormWrapper, Label, Input } from './styled'
 import Button from 'components/Button'
 
-class Sign extends Component {
-  state = {
-    globalError: '',
-  }
+const SignInForm = props => {
+  const [globalError, setGlobalError] = useState('')
 
-  initialValues = {
+  const initialValues = {
     email: '',
     password: '',
   }
 
-  validationSchema = Yup.object().shape({
+  const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email('Invalid email')
       .required('You must enter email'),
     password: Yup.string().required('Password is required'),
   })
 
-  handleSubmit = async ({ email, password }, { setSubmitting }) => {
+  const submitForm = async (values, actions) => {
     try {
-      setSubmitting(true)
+      actions.setSubmitting(true)
       const { ownerId } = await getCustomerToken({
-        username: email,
-        password,
+        username: values.email,
+        password: values.password,
       })
       const customer = await getCustomer(ownerId)
-      this.props.loginCustomer(customer)
-      this.props.history.push(routes.ACCOUNT)
+      props.loginCustomer(customer)
+      props.history.push(routes.ACCOUNT)
     } catch (error) {
-      this.setState({
-        globalError: error.message,
-      })
+      setGlobalError(error.message)
     }
-    setSubmitting(false)
+    actions.setSubmitting(false)
   }
 
-  render() {
-    const { globalError } = this.state
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={submitForm}
+    >
+      {({
+        handleChange,
+        handleBlur,
+        isSubmitting,
+        handleSubmit,
+        email,
+        password,
+      }) => (
+        <FormWrapper onSubmit={handleSubmit}>
+          {console.log(Boolean(globalError))}
+          {Boolean(globalError) && <div>{globalError}</div>}
 
-    return (
-      <Formik
-        initialValues={this.initialValues}
-        validationSchema={this.validationSchema}
-        onSubmit={this.handleSubmit}
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          email,
-          password,
-        }) => (
-          <FormWrapper onSubmit={handleSubmit}>
-            {Boolean(globalError) && <div>{globalError}</div>}
+          <Label htmlFor="email">Email</Label>
+          <Input
+            type="email"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={email}
+            id="email"
+            name="email"
+          />
 
-            <Label htmlFor="email">Email</Label>
-            <Input
-              type="email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={email}
-              id="email"
-              name="email"
-            />
+          <Label htmlFor="password">Password</Label>
+          <Input
+            type="password"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={password}
+            id="password"
+            name="password"
+          />
 
-            <Label htmlFor="password">Password</Label>
-            <Input
-              type="password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={password}
-              id="password"
-              name="password"
-            />
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Signing In...' : 'Sign In'}
+          </Button>
+        </FormWrapper>
+      )}
+    </Formik>
+  )
+}
 
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Signing In...' : 'Sign In'}
-            </Button>
-          </FormWrapper>
-        )}
-      </Formik>
-    )
-  }
+const mapStateToProps = state => {
+  return state
 }
 
 const mapDispatchToProps = {
   loginCustomer,
 }
 
-const SignUp = connect(
-  null,
+const SignIn = connect(
+  mapStateToProps,
   mapDispatchToProps
-)(Sign)
+)(SignInForm)
 
-export default SignUp
+export default SignIn

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
@@ -10,19 +10,17 @@ import * as routes from 'routes'
 import { FormWrapper, Label, Input, Error } from './styled'
 import Button from 'components/Button'
 
-class Sign extends Component {
-  state = {
-    globalError: '',
-  }
+const SignUpForm = props => {
+  const [globalError, setGlobalError] = useState('')
 
-  initialValues = {
+  const initialValues = {
     firstName: '',
     email: '',
     password: '',
     passwordConfirm: '',
   }
 
-  validationSchema = Yup.object().shape({
+  const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email('Invalid email')
       .required('You must enter email'),
@@ -44,99 +42,93 @@ class Sign extends Component {
       .required('You must confirm password'),
   })
 
-  handleSubmit = async (values, { setSubmitting }) => {
+  const submitForm = async (values, actions) => {
     try {
-      setSubmitting(true)
+      actions.setSubmitting(true)
       const { ownerId } = await createCustomer(values)
       const customer = await getCustomer(ownerId)
-      this.props.loginCustomer(customer)
-      this.props.history.push(routes.ACCOUNT)
+      props.loginCustomer(customer)
+      props.history.push(routes.ACCOUNT)
     } catch (error) {
-      this.setState({
-        globalError: error.message,
-      })
+      setGlobalError(error.message)
     }
-    setSubmitting(false)
+    actions.setSubmitting(false)
   }
 
-  render() {
-    const { globalError } = this.state
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={submitForm}
+    >
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting,
+        values,
+        errors,
+        touched,
+      }) => (
+        <FormWrapper onSubmit={handleSubmit}>
+          {Boolean(globalError) && <div>{globalError}</div>}
+          <Label htmlFor="firstName">First Name</Label>
+          <Input
+            type="text"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.firstName}
+            id="firstName"
+            name="firstName"
+          />
+          {errors.firstName && touched.firstName && (
+            <Error>{errors.firstName}</Error>
+          )}
 
-    return (
-      <Formik
-        initialValues={this.initialValues}
-        validationSchema={this.validationSchema}
-        onSubmit={this.handleSubmit}
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          values,
-          errors,
-          touched,
-        }) => (
-          <FormWrapper onSubmit={handleSubmit}>
-            {Boolean(globalError) && <div>{globalError}</div>}
-            <Label htmlFor="firstName">First Name</Label>
-            <Input
-              type="text"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.firstName}
-              id="firstName"
-              name="firstName"
-            />
-            {errors.firstName && touched.firstName && (
-              <Error>{errors.firstName}</Error>
-            )}
+          <Label htmlFor="email">Email</Label>
+          <Input
+            type="email"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.email}
+            id="email"
+            name="email"
+          />
+          {errors.email && touched.email && <Error>{errors.email}</Error>}
 
-            <Label htmlFor="email">Email</Label>
-            <Input
-              type="email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-              id="email"
-              name="email"
-            />
-            {errors.email && touched.email && <Error>{errors.email}</Error>}
+          <Label htmlFor="password">Password</Label>
+          <Input
+            type="password"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.password}
+            id="password"
+            name="password"
+          />
+          {errors.password && touched.password && (
+            <Error>{errors.password}</Error>
+          )}
 
-            <Label htmlFor="password">Password</Label>
-            <Input
-              type="password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
-              id="password"
-              name="password"
-            />
-            {errors.password && touched.password && (
-              <Error>{errors.password}</Error>
-            )}
+          <Label htmlFor="passwordConfirm">Password confirm</Label>
+          <Input
+            type="password"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.passwordConfirm}
+            id="passwordConfirm"
+            name="passwordConfirm"
+          />
+          {errors.passwordConfirm && touched.passwordConfirm && (
+            <Error>{errors.passwordConfirm}</Error>
+          )}
 
-            <Label htmlFor="passwordConfirm">Password confirm</Label>
-            <Input
-              type="password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.passwordConfirm}
-              id="passwordConfirm"
-              name="passwordConfirm"
-            />
-            {errors.passwordConfirm && touched.passwordConfirm && (
-              <Error>{errors.passwordConfirm}</Error>
-            )}
-
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Signing Up...' : 'Sign Up'}
-            </Button>
-          </FormWrapper>
-        )}
-      </Formik>
-    )
-  }
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Signing Up...' : 'Sign Up'}
+          </Button>
+        </FormWrapper>
+      )}
+    </Formik>
+  )
 }
 
 const mapStateToProps = state => {
@@ -144,13 +136,13 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  loginCustomer: loginCustomer,
+  loginCustomer,
   logoutCustomer,
 }
 
 const SignUp = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Sign)
+)(SignUpForm)
 
 export default SignUp

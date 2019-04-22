@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
-import { getProductById } from 'api/products/get-product'
 import { addProduct } from 'store/cart/actions'
+import { getProductById } from 'api/products/get-product'
 
 import Loader from 'components/Loader'
 import Button from 'components/Button'
@@ -15,57 +15,44 @@ import {
   Price,
 } from './styled'
 
-class Product extends Component {
-  state = {
-    isLoading: true,
-    product: {},
-  }
+import { useApi } from 'api/use-api'
 
-  async fetchProduct() {
-    const product = await getProductById(this.props.match.params.productId)
+const Product = ({ match, add }) => {
+  const { data: res, isLoading } = useApi(() =>
+    getProductById(match.params.productId)
+  )
 
-    this.setState({
-      isLoading: false,
-      product,
-    })
-  }
-
-  componentDidMount() {
-    this.fetchProduct()
-  }
-
-  render() {
-    const { product } = this.state
-
+  if (res && !isLoading) {
     return (
       <Fragment>
-        {this.state.isLoading && <Loader />}
-        {!this.state.isLoading && product && (
-          <Content>
-            <Info>
-              <Title>{product.name}</Title>
-              <Description>{product.description}</Description>
-              <Price>{product.price.formatted_amount}</Price>
-              <Button onClick={() => this.props.addProduct(product.id)}>
-                Add to cart
-              </Button>
-            </Info>
-            <ImgWrapper>
-              <Img src={product.image_url} alt={`${product.name} image`} />
-            </ImgWrapper>
-          </Content>
-        )}
+        <Content>
+          <Info>
+            <Title>{res.name}</Title>
+            <Description>{res.description}</Description>
+            <Price>{res.price.formatted_amount}</Price>
+            <Button onClick={() => add(res.id)}>Add to cart</Button>
+          </Info>
+          <ImgWrapper>
+            <Img src={res.image_url} alt={`${res.name} image`} />
+          </ImgWrapper>
+        </Content>
       </Fragment>
     )
+  } else {
+    return <Loader />
   }
+}
+
+const mapStateToProps = state => {
+  return state
 }
 
 const mapDispatchToProps = {
-  addProduct,
+  add: addProduct,
 }
 
 const ProductDetail = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Product)
 

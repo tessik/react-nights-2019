@@ -1,15 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import qs from 'qs'
-
-import { getProducts } from 'api/products/get-products'
 import { useApi } from 'api/use-api'
+import { getProducts } from 'api/products/get-products'
+import * as cartActions from 'store/cart/actions'
 
+import Product from './components/Product'
 import Loader from 'components/Loader'
 import { Pagination } from 'components/Pagination'
-
-import * as cartActions from 'store/cart/actions'
-import Product from './components/Product'
 import { ProductsWrap } from './styled'
 
 const Products = ({ match, location, addProduct }) => {
@@ -40,10 +38,8 @@ const Products = ({ match, location, addProduct }) => {
         </ProductsWrap>
       </>
     )
-  } else if (isLoading) {
-    return <Loader />
   } else {
-    return <p>Error</p>
+    return <Loader />
   }
 }
 

@@ -1,52 +1,51 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Logo from 'components/Logo'
-import { Wrapper, Header, HeaderSection, StyledLink } from './styled'
 import { logoutCustomer } from 'store/customer/actions'
 import { removeCustomer } from 'utils/customer'
 import { removeToken } from 'utils/token'
 import * as routes from 'routes'
 
-class LayoutComponent extends Component {
-  handleLogout() {
-    this.props.logoutCustomer()
-    removeCustomer()
-    removeToken()
-    this.props.history.push(routes.HOMEPAGE)
-  }
+import Logo from 'components/Logo'
+import { Wrapper, Header, HeaderSection, StyledLink } from './styled'
 
-  render() {
-    const { children, isAuthenticated } = this.props
+const handleLogout = props => {
+  props.logoutCustomer()
+  removeCustomer()
+  removeToken()
+  props.history.push(routes.HOMEPAGE)
+}
 
-    return (
-      <Fragment>
-        <Header>
-          <HeaderSection>
-            <StyledLink to="/">All Products</StyledLink>
-          </HeaderSection>
-          <HeaderSection>
-            <StyledLink to="/cart">My Cart</StyledLink>
-            {isAuthenticated ? (
-              <Fragment>
-                <StyledLink to="/account">My Account</StyledLink>
-                <button type="submit" onClick={() => this.handleLogout()}>
-                  Log Out
-                </button>
-              </Fragment>
-            ) : (
-              <Fragment>
-                <StyledLink to="/signup">Sign Up</StyledLink>
-                <StyledLink to="/signin">Sign In</StyledLink>
-              </Fragment>
-            )}
-          </HeaderSection>
-        </Header>
-        <Logo />
-        <Wrapper>{children}</Wrapper>
-      </Fragment>
-    )
-  }
+const LayoutComponent = props => {
+  const { children, isAuthenticated } = props
+
+  return (
+    <Fragment>
+      <Header>
+        <HeaderSection>
+          <StyledLink to={routes.PRODUCT_LIST}>All Products</StyledLink>
+        </HeaderSection>
+        <HeaderSection>
+          <StyledLink to={routes.CART}>My Cart</StyledLink>
+          {isAuthenticated ? (
+            <Fragment>
+              <StyledLink to={routes.ACCOUNT}>My Account</StyledLink>
+              <button type="submit" onClick={() => handleLogout(props)}>
+                Log Out
+              </button>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <StyledLink to={routes.SIGN_UP}>Sign Up</StyledLink>
+              <StyledLink to={routes.SIGN_IN}>Sign In</StyledLink>
+            </Fragment>
+          )}
+        </HeaderSection>
+      </Header>
+      <Logo />
+      <Wrapper>{children}</Wrapper>
+    </Fragment>
+  )
 }
 
 const mapStateToProps = state => {
