@@ -1,35 +1,36 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { removeProduct } from 'store/cartItems/actions'
 
-import Button from 'components/Button'
+import * as cartActions from 'store/cart/actions'
+import CartItem from './CartItem'
 
-const CartView = props => {
-  return props.items.length > 0 ? (
-    <ul>
-      {props.items.map(item => (
-        <li key={item.product.id}>
-          {item.product.name} - {item.quantity}
-          <Button onClick={() => props.removeProduct(item.product.id)}>
-            Remove
-          </Button>
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <h1>Your cart is empty</h1>
-  )
+const CartView = ({ items, removeProduct }) => {
+  if (items && items.length > 0) {
+    return (
+      <ul>
+        {items.map(item => (
+          <CartItem
+            key={item.product.id}
+            productId={item.product.id}
+            quantity={item.quantity}
+            removeProduct={removeProduct}
+          />
+        ))}
+      </ul>
+    )
+  }
+  return <h1>Your cart is empty</h1>
 }
 
 const mapStateToProps = state => ({
   items: Object.keys(state.cartItems).map(productId => ({
     quantity: state.cartItems[productId],
-    product: state.products.find(p => p.id === productId),
+    product: { id: productId },
   })),
 })
 
 const mapDispatchToProps = {
-  removeProduct,
+  removeProduct: cartActions.removeProduct,
 }
 
 const Cart = connect(

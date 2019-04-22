@@ -5,6 +5,7 @@ module.exports = {
     'prettier',
     'prettier/react',
   ],
+  plugins: ['react-hooks'],
   root: true,
   env: {
     browser: true,
@@ -26,6 +27,8 @@ module.exports = {
     'react/no-did-mount-set-state': 1,
     'react/prop-types': 0,
     'no-shadow': [2, { allow: ['name'] }],
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
   },
   settings: {
     'import/resolver': {

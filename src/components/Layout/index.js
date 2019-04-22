@@ -6,13 +6,14 @@ import { Wrapper, Header, HeaderSection, StyledLink } from './styled'
 import { logoutCustomer } from 'store/customer/actions'
 import { removeCustomer } from 'utils/customer'
 import { removeToken } from 'utils/token'
+import * as routes from 'routes'
 
 class LayoutComponent extends Component {
   handleLogout() {
     this.props.logoutCustomer()
     removeCustomer()
     removeToken()
-    this.props.history.push('/')
+    this.props.history.push(routes.HOMEPAGE)
   }
 
   render() {

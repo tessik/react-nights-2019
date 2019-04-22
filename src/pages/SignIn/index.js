@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 import { getCustomerToken } from 'api/customers/customer-token'
 import { getCustomer } from 'api/customers/customer'
 import { loginCustomer } from 'store/customer/actions'
+import * as routes from 'routes'
 
 import { FormWrapper, Label, Input } from './styled'
 import Button from 'components/Button'
@@ -35,7 +36,7 @@ class Sign extends Component {
       })
       const customer = await getCustomer(ownerId)
       this.props.loginCustomer(customer)
-      this.props.history.push('/account')
+      this.props.history.push(routes.ACCOUNT)
     } catch (error) {
       this.setState({
         globalError: error.message,

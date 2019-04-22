@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { getProductById } from 'api/products/get-product'
-import { addProduct } from 'store/cartItems/actions'
+import { addProduct } from 'store/cart/actions'
 
 import Loader from 'components/Loader'
 import Button from 'components/Button'

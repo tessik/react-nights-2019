@@ -1,69 +1,58 @@
-import React, { Component, Fragment } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
+import qs from 'qs'
+
 import { getProducts } from 'api/products/get-products'
-import { addProduct } from 'store/cartItems/actions'
-import { loadProducts } from 'store/products/actions'
+import { useApi } from 'api/use-api'
 
-import { ProductsWrap } from './styled'
 import Loader from 'components/Loader'
+import { Pagination } from 'components/Pagination'
+
+import * as cartActions from 'store/cart/actions'
 import Product from './components/Product'
+import { ProductsWrap } from './styled'
 
-class Products extends Component {
-  state = {
-    isLoading: true,
-  }
+const Products = ({ match, location, addProduct }) => {
+  const { page } = qs.parse(location.search.substr(1))
 
-  async fetchProducts() {
-    const products = await getProducts()
-    this.props.loadProducts(products)
+  const { data: res, isLoading } = useApi(
+    () => getProducts({ page: { number: page } }),
+    [page]
+  )
 
-    this.setState({
-      isLoading: false,
-    })
-  }
+  const handleAddToCart = productId => addProduct(productId)
 
-  handleAddToCart = (productId, e) => {
-    e.preventDefault()
-    this.props.addProduct(productId)
-  }
-
-  componentDidMount() {
-    this.fetchProducts()
-  }
-
-  render() {
+  if (res && !isLoading) {
     return (
-      <Fragment>
-        {this.state.isLoading && <Loader />}
-        {!this.state.isLoading && (
-          <ProductsWrap>
-            {this.props.products.map(product => (
-              <Product
-                key={product.id}
-                node={product}
-                onAddToCart={e => this.handleAddToCart(product.id, e)}
-              />
-            ))}
-          </ProductsWrap>
-        )}
-      </Fragment>
+      <>
+        <Pagination
+          pages={res.meta.page_count}
+          activePage={match.params.page}
+        />
+        <ProductsWrap>
+          {res.data.map(product => (
+            <Product
+              key={product.id}
+              node={product}
+              onAddToCart={handleAddToCart}
+            />
+          ))}
+        </ProductsWrap>
+      </>
     )
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    products: state.products,
+  } else if (isLoading) {
+    return <Loader />
+  } else {
+    return <p>Error</p>
   }
 }
 
 const mapDispatchToProps = {
-  loadProducts,
-  addProduct,
+  addProduct: cartActions.addProduct,
 }
 
 const ProductList = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Products)
 
