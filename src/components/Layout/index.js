@@ -3,20 +3,20 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Logo from 'components/Logo'
 import { Wrapper, Header, HeaderSection, StyledLink } from './styled'
-import { logoutCustomer } from 'store/customers/actions'
+import { logoutCustomer } from 'store/customer/actions'
+import { removeCustomer } from 'utils/customer'
+import { removeToken } from 'utils/token'
 
 class LayoutComponent extends Component {
-  handleLogout(e) {
-    e.preventDefault()
+  handleLogout() {
     this.props.logoutCustomer()
-
-    setTimeout(() => {
-      this.props.history.push('/logout')
-    }, 500)
+    removeCustomer()
+    removeToken()
+    this.props.history.push('/')
   }
 
   render() {
-    const { isLogged, children } = this.props
+    const { children, isAuthenticated } = this.props
 
     return (
       <Fragment>
@@ -26,15 +26,18 @@ class LayoutComponent extends Component {
           </HeaderSection>
           <HeaderSection>
             <StyledLink to="/cart">My Cart</StyledLink>
-            {isLogged ? (
+            {isAuthenticated ? (
               <Fragment>
                 <StyledLink to="/account">My Account</StyledLink>
-                <StyledLink to="/logout" onClick={e => this.handleLogout(e)}>
+                <button type="submit" onClick={() => this.handleLogout()}>
                   Log Out
-                </StyledLink>
+                </button>
               </Fragment>
             ) : (
-              <StyledLink to="/signup">Sign Up</StyledLink>
+              <Fragment>
+                <StyledLink to="/signup">Sign Up</StyledLink>
+                <StyledLink to="/signin">Sign In</StyledLink>
+              </Fragment>
             )}
           </HeaderSection>
         </Header>
@@ -47,7 +50,7 @@ class LayoutComponent extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLogged: state.customers.isLogged,
+    isAuthenticated: Object.keys(state.customer).length !== 0,
   }
 }
 

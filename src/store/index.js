@@ -2,17 +2,17 @@ import { createStore, combineReducers } from 'redux'
 
 import products from './products'
 import cartItems from './cartItems'
-import customers from './customers'
+import customer from './customer'
 
 const reducer = combineReducers({
   products,
   cartItems,
-  customers,
+  customer,
 })
 
-const store = createStore(
-  reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
-
-export default store
+export const configureStore = (preloadedState = {}) =>
+  createStore(
+    reducer,
+    preloadedState,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )

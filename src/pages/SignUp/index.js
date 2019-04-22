@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { createCustomer } from 'api/customers/create-customer'
-import { loginCustomer, logoutCustomer } from 'store/customers/actions'
+import { getCustomer } from 'api/customers/customer'
+import { loginCustomer, logoutCustomer } from 'store/customer/actions'
 
 import { FormWrapper, Label, Input, Error } from './styled'
 import Button from 'components/Button'
@@ -11,7 +12,6 @@ import Button from 'components/Button'
 class Sign extends Component {
   state = {
     globalError: '',
-    isSubmitting: false,
   }
 
   initialValues = {
@@ -46,73 +46,86 @@ class Sign extends Component {
   handleSubmit = async (values, { setSubmitting }) => {
     try {
       setSubmitting(true)
-      await createCustomer(values)
-      this.props.loginCustomer()
+      const { ownerId } = await createCustomer(values)
+      const customer = await getCustomer(ownerId)
+      this.props.loginCustomer(customer)
       this.props.history.push('/account')
     } catch (error) {
       this.setState({
         globalError: error.message,
       })
-      this.props.logoutCustomer()
     }
     setSubmitting(false)
   }
 
   render() {
-    const { globalError, isSubmitting } = this.state
+    const { globalError } = this.state
 
     return (
       <Formik
         initialValues={this.initialValues}
         validationSchema={this.validationSchema}
         onSubmit={this.handleSubmit}
-        render={props => (
-          <FormWrapper onSubmit={props.handleSubmit}>
+      >
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+          values,
+          errors,
+          touched,
+        }) => (
+          <FormWrapper onSubmit={handleSubmit}>
             {Boolean(globalError) && <div>{globalError}</div>}
             <Label htmlFor="firstName">First Name</Label>
             <Input
               type="text"
-              onChange={props.handleChange}
-              onBlur={props.handleBlur}
-              value={props.values.firstName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.firstName}
               id="firstName"
               name="firstName"
             />
-            {props.errors.firstName && <Error>{props.errors.firstName}</Error>}
+            {errors.firstName && touched.firstName && (
+              <Error>{errors.firstName}</Error>
+            )}
 
             <Label htmlFor="email">Email</Label>
             <Input
               type="email"
-              onChange={props.handleChange}
-              onBlur={props.handleBlur}
-              value={props.values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
               id="email"
               name="email"
             />
-            {props.errors.email && <Error>{props.errors.email}</Error>}
+            {errors.email && touched.email && <Error>{errors.email}</Error>}
 
             <Label htmlFor="password">Password</Label>
             <Input
               type="password"
-              onChange={props.handleChange}
-              onBlur={props.handleBlur}
-              value={props.values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.password}
               id="password"
               name="password"
             />
-            {props.errors.password && <Error>{props.errors.password}</Error>}
+            {errors.password && touched.password && (
+              <Error>{errors.password}</Error>
+            )}
 
             <Label htmlFor="passwordConfirm">Password confirm</Label>
             <Input
               type="password"
-              onChange={props.handleChange}
-              onBlur={props.handleBlur}
-              value={props.values.passwordConfirm}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.passwordConfirm}
               id="passwordConfirm"
               name="passwordConfirm"
             />
-            {props.errors.passwordConfirm && (
-              <Error>{props.errors.passwordConfirm}</Error>
+            {errors.passwordConfirm && touched.passwordConfirm && (
+              <Error>{errors.passwordConfirm}</Error>
             )}
 
             <Button type="submit" disabled={isSubmitting}>
@@ -120,7 +133,7 @@ class Sign extends Component {
             </Button>
           </FormWrapper>
         )}
-      />
+      </Formik>
     )
   }
 }
@@ -130,7 +143,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  loginCustomer,
+  loginCustomer: loginCustomer,
   logoutCustomer,
 }
 
