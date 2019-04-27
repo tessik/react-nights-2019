@@ -6,7 +6,7 @@ import { getCustomerToken } from 'api/customers/customer-token'
 import { getCustomer } from 'api/customers/customer'
 import { loginCustomer } from 'store/customer/actions'
 
-import { FormWrapper, Label, Input } from './styled'
+import { FormWrapper, Label, Input, Error } from './styled'
 import Button from 'components/Button'
 
 class Sign extends Component {
@@ -60,6 +60,8 @@ class Sign extends Component {
           isSubmitting,
           email,
           password,
+          errors,
+          touched,
         }) => (
           <FormWrapper onSubmit={handleSubmit}>
             {Boolean(globalError) && <div>{globalError}</div>}
@@ -73,6 +75,7 @@ class Sign extends Component {
               id="email"
               name="email"
             />
+            {errors.email && touched.email && <Error>{errors.email}</Error>}
 
             <Label htmlFor="password">Password</Label>
             <Input
@@ -83,6 +86,9 @@ class Sign extends Component {
               id="password"
               name="password"
             />
+            {errors.password && touched.password && (
+              <Error>{errors.password}</Error>
+            )}
 
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? 'Signing In...' : 'Sign In'}
