@@ -4,7 +4,7 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { createCustomer } from 'api/customers/create-customer'
 import { getCustomer } from 'api/customers/customer'
-import { loginCustomer, logoutCustomer } from 'store/customer/actions'
+import { loginCustomer } from 'store/customer/actions'
 import * as routes from 'routes'
 
 import { FormWrapper, Label, Input, Error } from './styled'
@@ -136,8 +136,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  loginCustomer,
-  logoutCustomer,
+  loginCustomer: loginCustomer,
 }
 
 const SignUp = connect(

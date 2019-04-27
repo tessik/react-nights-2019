@@ -7,7 +7,7 @@ import { getCustomer } from 'api/customers/customer'
 import { loginCustomer } from 'store/customer/actions'
 import * as routes from 'routes'
 
-import { FormWrapper, Label, Input } from './styled'
+import { FormWrapper, Label, Input, Error } from './styled'
 import Button from 'components/Button'
 
 const SignInForm = props => {
@@ -54,6 +54,8 @@ const SignInForm = props => {
         handleSubmit,
         email,
         password,
+        errors,
+        touched,
       }) => (
         <FormWrapper onSubmit={handleSubmit}>
           {console.log(Boolean(globalError))}
@@ -68,6 +70,7 @@ const SignInForm = props => {
             id="email"
             name="email"
           />
+          {errors.email && touched.email && <Error>{errors.email}</Error>}
 
           <Label htmlFor="password">Password</Label>
           <Input
@@ -78,6 +81,9 @@ const SignInForm = props => {
             id="password"
             name="password"
           />
+          {errors.password && touched.password && (
+            <Error>{errors.password}</Error>
+          )}
 
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Signing In...' : 'Sign In'}
