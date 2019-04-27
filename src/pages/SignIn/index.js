@@ -58,7 +58,6 @@ const SignInForm = props => {
         touched,
       }) => (
         <FormWrapper onSubmit={handleSubmit}>
-          {console.log(Boolean(globalError))}
           {Boolean(globalError) && <div>{globalError}</div>}
 
           <Label htmlFor="email">Email</Label>

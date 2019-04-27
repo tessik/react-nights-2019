@@ -136,7 +136,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  loginCustomer: loginCustomer,
+  loginCustomer,
 }
 
 const SignUp = connect(

@@ -43,16 +43,12 @@ const Product = ({ match, add }) => {
   }
 }
 
-const mapStateToProps = state => {
-  return state
-}
-
 const mapDispatchToProps = {
   add: addProduct,
 }
 
 const ProductDetail = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Product)
 
