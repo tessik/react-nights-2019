@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Button from 'components/Button'
 import { Wrapper, ImgWrap, Img, TitleWrap, Title, Price, Link } from './styled'
 
-const Product = ({ node }) => (
+const Product = ({ node, onAddToCart }) => (
   <Wrapper>
     <Link to={`product/${node.id}`}>
       <ImgWrap>
@@ -12,6 +13,7 @@ const Product = ({ node }) => (
         <Title>{node.name}</Title>
       </TitleWrap>
       <Price>{node.price.formatted_amount}</Price>
+      <Button onClick={e => onAddToCart(e)}>Add to Cart</Button>
     </Link>
   </Wrapper>
 )

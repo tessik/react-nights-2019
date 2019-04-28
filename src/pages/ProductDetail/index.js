@@ -1,7 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
 import { getProductById } from 'api/get-product'
+import { addProduct } from 'store/cartItems/actions'
 
 import Loader from 'components/Loader'
+import Button from 'components/Button'
 import {
   Content,
   Info,
@@ -10,10 +13,9 @@ import {
   Title,
   Description,
   Price,
-  Button,
 } from './styled'
 
-class ProductDetail extends Component {
+class Product extends Component {
   state = {
     isLoading: true,
     product: {},
@@ -31,28 +33,39 @@ class ProductDetail extends Component {
     this.fetchProduct()
   }
 
-  renderProduct(product) {
+  render() {
+    const { product } = this.state
+
     return (
-      <Content>
-        <Info>
-          <Title>{product.name}</Title>
-          <Description>{product.description}</Description>
-          <Price>{product.price}</Price>
-          {/* TODO: add behavior */}
-          <Button onClick={() => alert(`I'm dummy, yet`)}>Add to cart</Button>
-        </Info>
-        <ImgWrapper>
-          <Img src={product.image_url} alt={`${product.name} image`} />
-        </ImgWrapper>
-      </Content>
+      <Fragment>
+        {this.state.isLoading && <Loader />}
+        {!this.state.isLoading && product && (
+          <Content>
+            <Info>
+              <Title>{product.name}</Title>
+              <Description>{product.description}</Description>
+              <Price>{product.price}</Price>
+              <Button onClick={() => this.props.addProduct(product.id)}>
+                Add to cart
+              </Button>
+            </Info>
+            <ImgWrapper>
+              <Img src={product.image_url} alt={`${product.name} image`} />
+            </ImgWrapper>
+          </Content>
+        )}
+      </Fragment>
     )
   }
-
-  render() {
-    const { isLoading, product } = this.state
-
-    return <div>{isLoading ? <Loader /> : this.renderProduct(product)}</div>
-  }
 }
+
+const mapDispatchToProps = {
+  addProduct,
+}
+
+const ProductDetail = connect(
+  null,
+  mapDispatchToProps
+)(Product)
 
 export { ProductDetail }

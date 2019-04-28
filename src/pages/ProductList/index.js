@@ -1,22 +1,30 @@
 import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
 import { getProducts } from '../../api/get-products'
+import { addProduct } from 'store/cartItems/actions'
+import { loadProducts } from 'store/products/actions'
 
 import { ProductsWrap } from './styled'
 import Loader from 'components/Loader'
 import Product from './components/Product'
 
-class ProductList extends Component {
+class Products extends Component {
   state = {
     isLoading: true,
-    products: [],
   }
 
   async fetchProducts() {
     const products = await getProducts()
+    this.props.loadProducts(products)
+
     this.setState({
       isLoading: false,
-      products,
     })
+  }
+
+  handleAddToCart = (productId, e) => {
+    e.preventDefault()
+    this.props.addProduct(productId)
   }
 
   componentDidMount() {
@@ -24,15 +32,17 @@ class ProductList extends Component {
   }
 
   render() {
-    const { isLoading, products } = this.state
-
     return (
       <Fragment>
-        {isLoading && <Loader />}
-        {products && (
+        {this.state.isLoading && <Loader />}
+        {!this.state.isLoading && (
           <ProductsWrap>
-            {products.map(product => (
-              <Product key={product.id} node={product} />
+            {this.props.products.map(product => (
+              <Product
+                key={product.id}
+                node={product}
+                onAddToCart={e => this.handleAddToCart(product.id, e)}
+              />
             ))}
           </ProductsWrap>
         )}
@@ -40,5 +50,21 @@ class ProductList extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    products: state.products,
+  }
+}
+
+const mapDispatchToProps = {
+  loadProducts,
+  addProduct,
+}
+
+const ProductList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Products)
 
 export { ProductList }

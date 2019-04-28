@@ -19,7 +19,7 @@ export const Info = styled.div`
   @media screen and (min-width: ${theme.breakpoint.sm}) {
     align-items: flex-start;
     width: 50%;
-    padding-left: 20px;
+    padding-left: 2rem;
   }
 `
 
@@ -45,12 +45,4 @@ export const Description = styled.p`
 export const Price = styled.p`
   margin: 0 0 1em;
   color: ${theme.color.pink};
-`
-
-export const Button = styled.button`
-  padding: 10px 30px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: ${theme.color.white};
-  background: ${theme.color.pink};
 `

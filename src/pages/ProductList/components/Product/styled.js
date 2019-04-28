@@ -4,7 +4,7 @@ import theme from 'common/theme'
 
 export const Wrapper = styled.li`
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
   transition: all 300ms;
 
   @media screen and (min-width: ${theme.breakpoint.sm}) {
