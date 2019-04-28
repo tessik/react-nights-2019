@@ -3,14 +3,12 @@ import { connect } from 'react-redux'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { createCustomer } from 'api/customers/create-customer'
-import { getCustomer } from 'api/customers/customer'
 import { loginCustomer } from 'store/customer/actions'
-import * as routes from 'routes'
 
 import { FormWrapper, Label, Input, Error } from './styled'
 import Button from 'components/Button'
 
-const SignUpForm = props => {
+const SignUpForm = ({ login, history }) => {
   const [globalError, setGlobalError] = useState('')
 
   const initialValues = {
@@ -42,17 +40,20 @@ const SignUpForm = props => {
       .required('You must confirm password'),
   })
 
-  const submitForm = async (values, actions) => {
+  const submitForm = async ({ email, password, firstName }, actions) => {
     try {
       actions.setSubmitting(true)
-      const { ownerId } = await createCustomer(values)
-      const customer = await getCustomer(ownerId)
-      props.loginCustomer(customer)
-      props.history.push(routes.ACCOUNT)
+      await createCustomer({ email, password, firstName })
+      await login({
+        username: email,
+        password,
+        push: history.push,
+      })
     } catch (error) {
       setGlobalError(error.message)
+    } finally {
+      actions.setSubmitting(false)
     }
-    actions.setSubmitting(false)
   }
 
   return (
@@ -136,7 +137,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  loginCustomer,
+  login: loginCustomer,
 }
 
 const SignUp = connect(

@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { getCustomerToken } from 'api/customers/customer-token'
-import { getCustomer } from 'api/customers/customer'
 import { loginCustomer } from 'store/customer/actions'
-import * as routes from 'routes'
+import { AsyncValidationError } from 'utils/errors'
 
 import { FormWrapper, Label, Input, Error } from './styled'
 import Button from 'components/Button'
 
-const SignInForm = props => {
-  const [globalError, setGlobalError] = useState('')
+const SignInForm = ({ login, history }) => {
+  const [formAsyncError, setFormAsyncError] = useState('')
 
   const initialValues = {
     email: '',
@@ -28,17 +27,23 @@ const SignInForm = props => {
   const submitForm = async (values, actions) => {
     try {
       actions.setSubmitting(true)
-      const { ownerId } = await getCustomerToken({
+      await login({
         username: values.email,
         password: values.password,
+        push: history.push,
       })
-      const customer = await getCustomer(ownerId)
-      props.loginCustomer(customer)
-      props.history.push(routes.ACCOUNT)
     } catch (error) {
-      setGlobalError(error.message)
+      if (error instanceof AsyncValidationError) {
+        setFormAsyncError(error.message)
+      } else {
+        toast.error(
+          `There was an error while logging in, please try again later!`
+        )
+        // This would be nice place to log errors to some external service
+      }
+    } finally {
+      actions.setSubmitting(false)
     }
-    actions.setSubmitting(false)
   }
 
   return (
@@ -58,7 +63,7 @@ const SignInForm = props => {
         touched,
       }) => (
         <FormWrapper onSubmit={handleSubmit}>
-          {Boolean(globalError) && <div>{globalError}</div>}
+          {Boolean(formAsyncError) && <div>{formAsyncError}</div>}
 
           <Label htmlFor="email">Email</Label>
           <Input
@@ -98,7 +103,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  loginCustomer,
+  login: loginCustomer,
 }
 
 const SignIn = connect(

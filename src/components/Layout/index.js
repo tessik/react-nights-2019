@@ -1,22 +1,11 @@
 import React, { Fragment } from 'react'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { logoutCustomer } from 'store/customer/actions'
-import { removeCustomer } from 'utils/customer'
-import { removeToken } from 'utils/token'
 import * as routes from 'routes'
 
 import Logo from 'components/Logo'
 import { Wrapper, Header, HeaderSection, StyledLink } from './styled'
 
-const handleLogout = props => {
-  props.logoutCustomer()
-  removeCustomer()
-  removeToken()
-  props.history.push(routes.HOMEPAGE)
-}
-
-const LayoutComponent = props => {
+const Layout = props => {
   const { children, isAuthenticated } = props
 
   return (
@@ -30,9 +19,7 @@ const LayoutComponent = props => {
           {isAuthenticated ? (
             <Fragment>
               <StyledLink to={routes.ACCOUNT}>My Account</StyledLink>
-              <button type="submit" onClick={() => handleLogout(props)}>
-                Log Out
-              </button>
+              <StyledLink to={routes.LOG_OUT}>Logout</StyledLink>
             </Fragment>
           ) : (
             <Fragment>
@@ -54,13 +41,4 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = {
-  logoutCustomer,
-}
-
-const Layout = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LayoutComponent)
-
-export default withRouter(Layout)
+export default connect(mapStateToProps)(Layout)
