@@ -2,7 +2,7 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import GlobalStyles from './globalStyles'
 
-import Header from 'components/Common/Header'
+import Header from 'components/Header'
 import Layout from 'components/Layout'
 import { ProductList } from 'pages/ProductList'
 import { ProductDetail } from 'pages/ProductDetail'

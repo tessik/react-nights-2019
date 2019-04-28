@@ -1,17 +1,17 @@
 import styled from 'styled-components/macro'
 import { Link as BaseLink } from 'react-router-dom'
-import theme from '../../../../../common/theme'
+import theme from 'common/theme'
 
 export const Wrapper = styled.li`
   width: 100%;
   margin-bottom: 20px;
   transition: all 300ms;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: ${theme.breakpoint.sm}) {
     width: calc(50% - 20px);
   }
 
-  @media screen and (min-width: 800px) {
+  @media screen and (min-width: ${theme.breakpoint.md}) {
     width: calc(33.333% - 20px);
   }
 

@@ -6,7 +6,7 @@ export const Content = styled.div`
   flex-direction: column-reverse;
   text-align: center;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: ${theme.breakpoint.sm}) {
     flex-direction: row-reverse;
     text-align: left;
   }
@@ -16,7 +16,7 @@ export const Info = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: ${theme.breakpoint.sm}) {
     align-items: flex-start;
     width: 50%;
     padding-left: 20px;
@@ -28,7 +28,7 @@ export const Img = styled.img`
 `
 
 export const ImgWrapper = styled.div`
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: ${theme.breakpoint.sm}) {
     width: 50%;
   }
 `

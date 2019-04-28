@@ -2,8 +2,4 @@
 
 # Introduction
 
-This repository serves as an online course for learning React.
-
-## Lecture
-
-[Lectures](https://github.com/strvcom/react-nights-2019/tree/master/lectures) contain a brief theoretical overview of what was discussed in that lecture. Including video recording.
+This is repo with growing e-shop app.

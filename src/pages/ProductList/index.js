@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { getProducts } from '../../api/get-products'
 
-import ProductListComponent from './components/ProductList'
+import { ProductsWrap } from './styled'
 import Loader from 'components/Loader'
+import Product from './components/Product'
 
 class ProductList extends Component {
   state = {
@@ -10,16 +11,16 @@ class ProductList extends Component {
     products: [],
   }
 
-  setProductsState(products) {
+  async fetchProducts() {
+    const products = await getProducts()
     this.setState({
       isLoading: false,
       products,
     })
   }
 
-  async componentDidMount() {
-    let products = await getProducts()
-    this.setProductsState(products)
+  componentDidMount() {
+    this.fetchProducts()
   }
 
   render() {
@@ -28,7 +29,13 @@ class ProductList extends Component {
     return (
       <Fragment>
         {isLoading && <Loader />}
-        {products && <ProductListComponent products={products} />}
+        {products && (
+          <ProductsWrap>
+            {products.map(product => (
+              <Product key={product.id} node={product} />
+            ))}
+          </ProductsWrap>
+        )}
       </Fragment>
     )
   }
