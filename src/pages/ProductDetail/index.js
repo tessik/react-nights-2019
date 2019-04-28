@@ -23,7 +23,6 @@ class Product extends Component {
 
   async fetchProduct() {
     const product = await getProductById(this.props.match.params.productId)
-
     this.setState({
       isLoading: false,
       product,
