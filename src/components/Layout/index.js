@@ -10,7 +10,7 @@ const Layout = props => {
 
   return (
     <Fragment>
-      <Header>
+      <Header data-cy="header">
         <HeaderSection>
           <StyledLink to={routes.PRODUCT_LIST}>All Products</StyledLink>
         </HeaderSection>

@@ -5,7 +5,7 @@ import { Wrapper, ImgWrap, Img, TitleWrap, Title, Price, Link } from './styled'
 import * as routes from 'routes'
 
 const Product = ({ node, onAddToCart }) => (
-  <Wrapper>
+  <Wrapper data-cy="product">
     <Link to={routes.getProductDetailRoute(node.id)}>
       <ImgWrap>
         <Img src={node.image_url} alt={`${node.name} image`} />

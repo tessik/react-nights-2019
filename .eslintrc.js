@@ -5,7 +5,7 @@ module.exports = {
     'prettier',
     'prettier/react',
   ],
-  plugins: ['react-hooks'],
+  plugins: ['react-hooks', 'cypress'],
   root: true,
   env: {
     browser: true,
@@ -13,6 +13,7 @@ module.exports = {
     es6: true,
     jest: true,
     node: true,
+    'cypress/globals': true,
   },
   parser: 'babel-eslint',
   parserOptions: {

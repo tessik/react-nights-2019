@@ -15,7 +15,8 @@ const CartItem = ({ productId, quantity, removeProduct }) => {
     <li key={productId}>
       {isLoading && <Loader small />}
       <p>
-        {product ? product.name : productId} - {quantity}
+        {product ? product.name : productId} -{' '}
+        <span data-cy="cart-item-quantity">{quantity}</span>
       </p>
       <Button type="button" onClick={() => removeProduct(productId)}>
         Remove

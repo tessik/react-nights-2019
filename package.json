@@ -9,7 +9,8 @@
     "eject": "react-scripts eject",
     "format": "prettier --write '*/**/*.{js,css,md,json}'",
     "lint:js": "eslint . --ignore-path .gitignore --fix",
-    "lint:css": "stylelint 'src/**/*.js'"
+    "lint:css": "stylelint 'src/**/*.js'",
+    "cy": "node_modules/.bin/cypress open"
   },
   "lint-staged": {
     "*.js": [
@@ -35,6 +36,8 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "cypress": "^3.2.0",
+    "eslint-plugin-cypress": "^2.2.1",
     "eslint-plugin-react-hooks": "^1.6.0",
     "formik": "^1.5.2",
     "prop-types": "^15.7.2",
