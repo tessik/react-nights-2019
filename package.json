@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write '*/**/*.{js,css,md,json}'",
     "lint:js": "eslint . --ignore-path .gitignore --fix",
     "lint:css": "stylelint 'src/**/*.js'",
-    "cy": "node_modules/.bin/cypress open"
+    "cy": "node_modules/.bin/cypress open",
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server/index.js"
   },
   "lint-staged": {
     "*.js": [
@@ -36,15 +37,20 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "babel-plugin-module-resolver": "^3.2.0",
     "cypress": "^3.2.0",
     "eslint-plugin-cypress": "^2.2.1",
     "eslint-plugin-react-hooks": "^1.6.0",
+    "express": "^4.16.4",
     "formik": "^1.5.2",
+    "next": "^8.1.0",
+    "next-redux-wrapper": "^3.0.0-alpha.2",
+    "next-routes": "^1.4.2",
     "prop-types": "^15.7.2",
     "qs": "^6.7.0",
     "ramda": "^0.26.1",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-redux": "^6.0.1",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
