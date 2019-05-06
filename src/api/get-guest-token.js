@@ -1,5 +1,6 @@
 import config from 'config'
 import { setToken } from 'utils/token'
+import fetch from 'isomorphic-unfetch'
 
 export const getGuestToken = async () => {
   const response = await fetch(`${config.apiUrl}/oauth/token`, {

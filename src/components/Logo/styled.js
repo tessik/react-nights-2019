@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import theme from 'common/theme'
 
 export const Wrapper = styled.header`
@@ -10,7 +9,7 @@ export const Wrapper = styled.header`
   margin: 3rem 0;
 `
 
-export const Logo = styled(Link)`
+export const Logo = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;

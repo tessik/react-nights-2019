@@ -1,11 +1,11 @@
 export const getToken = () => {
-  return window.localStorage.getItem('token')
+  return typeof window !== 'undefined' && window.localStorage.getItem('token')
 }
 
 export const setToken = token => {
-  window.localStorage.setItem('token', token)
+  typeof window !== 'undefined' && window.localStorage.setItem('token', token)
 }
 
 export const removeToken = () => {
-  window.localStorage.removeItem('token')
+  typeof window !== 'undefined' && window.localStorage.removeItem('token')
 }

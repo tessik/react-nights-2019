@@ -1,11 +1,16 @@
 export const getRefreshToken = () => {
-  return window.localStorage.getItem('refresh-token')
+  return (
+    typeof window !== 'undefined' &&
+    window.localStorage.getItem('refresh-token')
+  )
 }
 
 export const setRefreshToken = token => {
-  window.localStorage.setItem('refresh-token', token)
+  typeof window !== 'undefined' &&
+    window.localStorage.setItem('refresh-token', token)
 }
 
 export const removeRefreshToken = () => {
-  window.localStorage.removeItem('refresh-token')
+  typeof window !== 'undefined' &&
+    window.localStorage.removeItem('refresh-token')
 }

@@ -14,3 +14,5 @@ export const List = styled.ul`
 export const ListItem = styled.li`
   margin: 5px;
 `
+
+export const BaseLink = styled.a``

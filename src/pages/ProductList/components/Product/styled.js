@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Link as BaseLink } from 'react-router-dom'
 import theme from 'common/theme'
 
 export const Wrapper = styled.li`
@@ -21,7 +20,7 @@ export const Wrapper = styled.li`
   }
 `
 
-export const Link = styled(BaseLink)`
+export const BaseLink = styled.a`
   text-decoration: none;
   color: initial;
   background-color: ${theme.color.white};

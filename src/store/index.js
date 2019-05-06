@@ -9,7 +9,7 @@ const reducer = combineReducers({
   customer,
 })
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+// const composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 export const configureStore = (preloadedState = {}) =>
-  createStore(reducer, preloadedState, composeEnhancers(applyMiddleware(thunk)))
+  createStore(reducer, preloadedState, compose(applyMiddleware(thunk)))

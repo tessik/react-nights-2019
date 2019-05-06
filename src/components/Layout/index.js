@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import * as routes from 'routes'
+import Link from 'next/link'
 
 import Logo from 'components/Logo'
 import { Wrapper, Header, HeaderSection, StyledLink } from './styled'
@@ -12,19 +13,31 @@ const Layout = props => {
     <Fragment>
       <Header data-cy="header">
         <HeaderSection>
-          <StyledLink to={routes.PRODUCT_LIST}>All Products</StyledLink>
+          <Link href={routes.PRODUCT_LIST}>
+            <StyledLink>All Products</StyledLink>
+          </Link>
         </HeaderSection>
         <HeaderSection>
-          <StyledLink to={routes.CART}>My Cart</StyledLink>
+          <Link href={routes.CART}>
+            <StyledLink>My Cart</StyledLink>
+          </Link>
           {isAuthenticated ? (
             <Fragment>
-              <StyledLink to={routes.ACCOUNT}>My Account</StyledLink>
-              <StyledLink to={routes.LOG_OUT}>Logout</StyledLink>
+              <Link href={routes.ACCOUNT}>
+                <StyledLink>My Account</StyledLink>
+              </Link>
+              <Link href={routes.LOG_OUT}>
+                <StyledLink>Logout</StyledLink>
+              </Link>
             </Fragment>
           ) : (
             <Fragment>
-              <StyledLink to={routes.SIGN_UP}>Sign Up</StyledLink>
-              <StyledLink to={routes.SIGN_IN}>Sign In</StyledLink>
+              <Link href={routes.SIGN_UP}>
+                <StyledLink>Sign Up</StyledLink>
+              </Link>
+              <Link href={routes.SIGN_IN}>
+                <StyledLink>Sign In</StyledLink>
+              </Link>
             </Fragment>
           )}
         </HeaderSection>

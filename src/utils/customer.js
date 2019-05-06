@@ -1,5 +1,7 @@
 export const getCustomer = () => {
-  const customer = window.localStorage.getItem('customer')
+  const customer =
+    typeof window !== 'undefined' && window.localStorage.getItem('customer')
+
   if (customer) {
     return JSON.parse(customer)
   }
@@ -7,9 +9,10 @@ export const getCustomer = () => {
 }
 
 export const setCustomer = customer => {
-  window.localStorage.setItem('customer', JSON.stringify(customer))
+  typeof window !== 'undefined' &&
+    window.localStorage.setItem('customer', JSON.stringify(customer))
 }
 
 export const removeCustomer = () => {
-  window.localStorage.removeItem('customer')
+  typeof window !== 'undefined' && window.localStorage.removeItem('customer')
 }
